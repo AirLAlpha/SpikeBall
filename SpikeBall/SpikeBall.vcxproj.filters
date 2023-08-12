@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>037eb92f-e6d6-441f-8f53-faaa7bcb7c2d</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>a29d418b-ad5e-41f5-863e-f28562f0bf61</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{1cfc0b2f-7df2-4ce0-b3ef-4d56fa3fe231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Camera">
+      <UniqueIdentifier>{61e9f123-e499-4ca8-a3a3-e3334ccbfd64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Camera\DebugCamera">
+      <UniqueIdentifier>{e1dd5795-c32f-4bc9-a576-1b86e8ce9580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Utilities">
+      <UniqueIdentifier>{ec43ecf1-76ec-410a-b391-c49c3735bc1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\InputManager">
+      <UniqueIdentifier>{11c0474d-3e01-4eb8-9909-90f187aa7047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\ImaseLib">
+      <UniqueIdentifier>{a6302545-8fa2-482e-bd82-054b7dac2e57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\ImaseLib\DebugFont">
+      <UniqueIdentifier>{c556e7c8-8615-4d05-bba6-907b6e34e02c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{02bb9c4e-e119-4c1b-96ff-ea8c1f437930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scenes">
+      <UniqueIdentifier>{ddf598f6-dbce-4330-8c23-3a2e26f9f9b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scenes\PlayScene">
+      <UniqueIdentifier>{a44bc0c5-150f-48eb-9036-f95713031119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Collider">
+      <UniqueIdentifier>{a5a1f261-0eda-450e-b8a7-b3c0aa70d892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\DebugDraw">
+      <UniqueIdentifier>{1876e40d-7c5d-4f4c-b464-296e84d7f43b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\RenderTexture">
+      <UniqueIdentifier>{c3cf8bbd-1df5-4096-a083-3886b701af3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Grid">
+      <UniqueIdentifier>{4e6817bd-2ea8-4c81-9f28-7fc11ac9cbd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Floor">
+      <UniqueIdentifier>{8b3c5e17-0aeb-4fac-86a8-fe427c78f419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Collider">
+      <UniqueIdentifier>{ff8577b0-7e68-4844-b55d-ac868043ff3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Collider\PlaneCollider">
+      <UniqueIdentifier>{0f86d6d7-3be9-42be-ae09-4f16231eec70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Collider\SphereCollider">
+      <UniqueIdentifier>{be519f96-2ec1-49c2-ad91-4bb1c2956e82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Ball">
+      <UniqueIdentifier>{269eae67-1c7b-40b4-a4ca-dff6b1c64e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Spike">
+      <UniqueIdentifier>{43735a19-047b-4bf3-bbdb-7ae914894918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\SpikeManager">
+      <UniqueIdentifier>{6acc574e-8a39-4d44-9b11-4833b05bcd6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\SpriteNumber">
+      <UniqueIdentifier>{d66d52a8-a3fb-48c7-a536-e7aaf73b3795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Background">
+      <UniqueIdentifier>{26cf7013-d831-4559-9ab3-44c5b72591ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Button">
+      <UniqueIdentifier>{38291313-954d-4443-a229-725625b1215a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ResultCanvas">
+      <UniqueIdentifier>{8c59c56e-7a06-4463-9d0f-5d5c27660134}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ShapeRender2D">
+      <UniqueIdentifier>{30a0f4a3-00b2-46b7-99ba-96b82ba0fade}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Timer">
+      <UniqueIdentifier>{c3851172-c94e-4eb0-a077-db2775e552a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scenes\TitleScene">
+      <UniqueIdentifier>{5a336b45-9994-4caa-aabd-9e72a6c7247a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="StepTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Camera\Camera.h">
+      <Filter>Framework\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Camera\DebugCamera\DebugCamera.h">
+      <Filter>Framework\Camera\DebugCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\DXTKUtility.h">
+      <Filter>Framework\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Screen.h">
+      <Filter>Framework\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\UtilityFunction.h">
+      <Filter>Framework\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\InputManager\InputManager.h">
+      <Filter>Framework\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\UserResources.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ImaseLib\DebugFont\DebugFont.h">
+      <Filter>Framework\ImaseLib\DebugFont</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scenes\Scene.h">
+      <Filter>Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scenes\PlayScene\PlayScene.h">
+      <Filter>Game\Scenes\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameMain.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\RenderTexture\RenderTexture.h">
+      <Filter>Framework\RenderTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\DebugDraw\DebugDraw.h">
+      <Filter>Framework\DebugDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Grid\Grid.h">
+      <Filter>Framework\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\ReadData.h">
+      <Filter>Framework\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Floor\Floor.h">
+      <Filter>Game\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Colliders\PlaneCollider\PlaneCollider.h">
+      <Filter>Game\Collider\PlaneCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Colliders\SphereCollider\SphereCollider.h">
+      <Filter>Game\Collider\SphereCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Ball\Ball.h">
+      <Filter>Game\Ball</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Colliders\Line.h">
+      <Filter>Game\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\SpikeManager\SpikeManager.h">
+      <Filter>Game\SpikeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Spike\Spike.h">
+      <Filter>Game\Spike</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\SpriteNumber\SpriteNumber.h">
+      <Filter>Game\SpriteNumber</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Background\Background.h">
+      <Filter>Game\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Button\Button.h">
+      <Filter>Game\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ResultCanvas\ResultCanvas.h">
+      <Filter>Game\ResultCanvas</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\2DShapeRender\ShapeRender2D.h">
+      <Filter>Game\ShapeRender2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Timer\Timer.h">
+      <Filter>Game\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scenes\TitleScene\TitleScene.h">
+      <Filter>Game\Scenes\TitleScene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="DeviceResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Camera\Camera.cpp">
+      <Filter>Framework\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Camera\DebugCamera\DebugCamera.cpp">
+      <Filter>Framework\Camera\DebugCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\InputManager\InputManager.cpp">
+      <Filter>Framework\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ImaseLib\DebugFont\DebugFont.cpp">
+      <Filter>Framework\ImaseLib\DebugFont</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scenes\PlayScene\PlayScene.cpp">
+      <Filter>Game\Scenes\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameMain.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\RenderTexture\RenderTexture.cpp">
+      <Filter>Framework\RenderTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\DebugDraw\DebugDraw.cpp">
+      <Filter>Framework\DebugDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Grid\Grid.cpp">
+      <Filter>Framework\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Floor\Floor.cpp">
+      <Filter>Game\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Colliders\PlaneCollider\PlaneCollider.cpp">
+      <Filter>Game\Collider\PlaneCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Colliders\SphereCollider\SphereCollider.cpp">
+      <Filter>Game\Collider\SphereCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Ball\Ball.cpp">
+      <Filter>Game\Ball</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\SpikeManager\SpikeManager.cpp">
+      <Filter>Game\SpikeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Spike\Spike.cpp">
+      <Filter>Game\Spike</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\SpriteNumber\SpriteNumber.cpp">
+      <Filter>Game\SpriteNumber</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Background\Background.cpp">
+      <Filter>Game\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Button\Button.cpp">
+      <Filter>Game\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ResultCanvas\ResultCanvas.cpp">
+      <Filter>Game\ResultCanvas</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\2DShapeRender\ShapeRender2D.cpp">
+      <Filter>Game\ShapeRender2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Timer\Timer.cpp">
+      <Filter>Game\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scenes\TitleScene\TitleScene.cpp">
+      <Filter>Game\Scenes\TitleScene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="directx.ico">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="settings.manifest">
+      <Filter>Assets</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
