@@ -1,6 +1,6 @@
 /**********************************************
  *
- *  ShadowReciveEffect.cpp
+ *  ShadowReceiveEffect.cpp
  *  影を受け取るエフェクト
  *
  *  製作者：牛丸文仁
@@ -8,8 +8,7 @@
  *
  **********************************************/
 #include "pch.h"
-#include "ShadowReciveEffect.h"
-
+#include "ShadowReceiveEffect.h"
 #include "Utilities/ReadData.h"
 #include "Utilities/DXTKUtility.h"
 
@@ -17,7 +16,8 @@ using namespace DirectX;
 
 
 //	コンストラクタ
-ShadowReciveEffect::ShadowReciveEffect(ID3D11Device* device)
+ShadowReceiveEffect::ShadowReceiveEffect(ID3D11Device* device):
+	m_lightColor(Colors::White)
 {
 	//	シェーダーの読み込み
 	m_VSData = DX::ReadData(L"Resources/Shaders/Shadow_VS.cso");
@@ -43,14 +43,14 @@ ShadowReciveEffect::ShadowReciveEffect(ID3D11Device* device)
 }
 
 //	デストラクタ
-ShadowReciveEffect::~ShadowReciveEffect()
+ShadowReceiveEffect::~ShadowReceiveEffect()
 {
 }
 
 //--------------------------------------------------------------------------------
 // シェーダーの適応
 //--------------------------------------------------------------------------------
-void ShadowReciveEffect::Apply(ID3D11DeviceContext* context)
+void ShadowReceiveEffect::Apply(ID3D11DeviceContext* context)
 {
 	//	定数バッファの更新
 	ConstBuffer buff = {};
@@ -63,6 +63,7 @@ void ShadowReciveEffect::Apply(ID3D11DeviceContext* context)
 	SimpleMath::Vector4 lightDir = static_cast<SimpleMath::Vector4>(m_lightDir);
 	lightDir.w = 1.0f;
 	buff.lightDir = lightDir;
+	buff.lightColor = m_lightColor;
 	context->UpdateSubresource(m_cBuffer.Get(), 0, NULL, &buff, 0, 0);
 
 	//	定数バッファを設定
@@ -70,7 +71,8 @@ void ShadowReciveEffect::Apply(ID3D11DeviceContext* context)
 	context->PSSetConstantBuffers(0, 1, m_cBuffer.GetAddressOf());
 
 	//	テクスチャの設定
-	context->PSSetShaderResources(0, 1, &m_shadowTexture);
+	ID3D11ShaderResourceView* textures[2] = { m_baseTexture, m_shadowTexture };
+	context->PSSetShaderResources(0, 2, textures);
 
 	//	シェーダーを設定
 	context->VSSetShader(m_vertexShader.Get(), nullptr, 0);
@@ -80,7 +82,7 @@ void ShadowReciveEffect::Apply(ID3D11DeviceContext* context)
 //--------------------------------------------------------------------------------
 // 頂点シェーダーの取得
 //--------------------------------------------------------------------------------
-void ShadowReciveEffect::GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength)
+void ShadowReceiveEffect::GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength)
 {
 	//	どちらかが nullptr ならエラー
 	assert(pShaderByteCode != nullptr && pByteCodeLength != nullptr);

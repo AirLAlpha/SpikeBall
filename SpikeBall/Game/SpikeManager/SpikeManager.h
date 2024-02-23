@@ -55,6 +55,13 @@ public:
 		const DirectX::SimpleMath::Matrix& proj
 	);
 
+	//	シャドウマップへの描画
+	void ShadowMapRender(
+		const ShadowMap& shadowMap,
+		ID3D11DeviceContext* context
+	);
+
+
 	//	床との衝突判定
 	void CheckHitFloor(const Floor& floor);
 	//	ボールとの衝突判定

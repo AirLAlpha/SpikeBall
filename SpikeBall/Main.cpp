@@ -22,7 +22,7 @@ namespace
     std::unique_ptr<Game> g_game;
 }
 
-LPCWSTR g_szAppName = L"DXTK_Template";
+LPCWSTR g_szAppName = L"SpikeBall";
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void ExitGame() noexcept;

@@ -79,3 +79,20 @@ void Spike::Render(const DirectX::SimpleMath::Matrix& view, const DirectX::Simpl
 	//	描画
 	m_geometricPrimitive->Draw(world, view, proj);
 }
+
+//--------------------------------------------------------------------------------
+// シャドウマップへの描画
+//--------------------------------------------------------------------------------
+void Spike::ShadowMapRender(const ShadowMap& shadowMap, ID3D11DeviceContext* context)
+{
+	//	ワールド行列の作成
+	SimpleMath::Matrix world =
+		SimpleMath::Matrix::CreateFromYawPitchRoll(ANGLE) *
+		SimpleMath::Matrix::CreateTranslation(m_pos);
+	
+	//	描画
+	m_geometricPrimitive->Draw(SimpleMath::Matrix::Identity, SimpleMath::Matrix::Identity, SimpleMath::Matrix::Identity, Colors::White, nullptr, false, [&]
+		{
+			shadowMap.RenderShadowMap(context, world);
+		});
+}

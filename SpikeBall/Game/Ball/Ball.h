@@ -9,6 +9,7 @@
  **********************************************/
 #pragma once
 #include "Colliders/SphereCollider/SphereCollider.h"
+#include "ShadowMap/ShadowMap.h"
 
 //	前方宣言
 class Floor;
@@ -69,6 +70,13 @@ public:
 		const DirectX::CommonStates& states,
 		const DirectX::SimpleMath::Matrix& view,
 		const DirectX::SimpleMath::Matrix& proj
+	);
+
+	//	シャドウマップへの描画
+	void ShadowMapRender(
+		const ShadowMap& shadowMap,
+		ID3D11DeviceContext* context,
+		const DirectX::CommonStates& states
 	);
 
 	//	床との衝突判定

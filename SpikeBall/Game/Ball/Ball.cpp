@@ -75,6 +75,23 @@ void Ball::Render(
 }
 
 //--------------------------------------------------------------------------------
+// シャドウマップへの描画
+//--------------------------------------------------------------------------------
+void Ball::ShadowMapRender(const ShadowMap& shadowMap, ID3D11DeviceContext* context, const DirectX::CommonStates& states)
+{
+	//	ワールド行列の作成
+	SimpleMath::Matrix world =
+		SimpleMath::Matrix::CreateScale(m_radius) *
+		SimpleMath::Matrix::CreateFromQuaternion(m_rot) *
+		SimpleMath::Matrix::CreateTranslation(m_pos);
+
+	m_model->Draw(context, states, SimpleMath::Matrix::Identity, SimpleMath::Matrix::Identity, SimpleMath::Matrix::Identity, false, [&]
+		{
+			shadowMap.RenderShadowMap(context, world);
+		});
+}
+
+//--------------------------------------------------------------------------------
 // 床との衝突判定
 //--------------------------------------------------------------------------------
 void Ball::CheckHitFloor(const Floor& floor)

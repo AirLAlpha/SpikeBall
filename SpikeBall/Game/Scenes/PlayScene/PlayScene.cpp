@@ -106,6 +106,16 @@ void PlayScene::Render()
 	SimpleMath::Matrix view = m_camera->GetView();
 	SimpleMath::Matrix proj = m_camera->GetProjection();
 
+	//	シャドウマップへの描画
+	m_shadowMap->Begin(context, *states);
+
+	m_floor->ShadowMapRender(*m_shadowMap, context, *states);
+	m_spikeManager->ShadowMapRender(*m_shadowMap, context);
+	m_ball->ShadowMapRender(*m_shadowMap, context, *states);
+
+	m_shadowMap->End(context);
+
+
 	//	背景の描画
 	m_background->Render(context, view, proj);
 	//	床の描画
@@ -154,6 +164,14 @@ void PlayScene::CreateDeviceDependentResources()
 	//	タイマーの生成
 	m_timerPos = Screen::SCREEN_CENTER() + SimpleMath::Vector2(Screen::WIDTH / -4, -430);
 	m_timer = std::make_unique<Timer>(device, context, m_timerPos);
+
+	//	ライトの作成
+	m_light = std::make_unique<DirectionalLight>(SimpleMath::Vector2(0.0f, XM_PI));
+	m_floor->SetLight(m_light.get());
+
+	//	シャドウマップの作成
+	m_shadowMap = std::make_unique<ShadowMap>(*UserResources::GetInstance()->GetDeviceResources(), 512);
+	m_shadowMap->SetLight(m_light.get());
 
 	//	リザルトキャンバスの作成
 	m_resultCanvas = std::make_unique<ResultCanvas>(device, context, GetNextScenePtr(), GetChangeSceneFlagPtr());

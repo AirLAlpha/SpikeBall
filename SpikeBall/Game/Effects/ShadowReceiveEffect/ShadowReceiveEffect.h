@@ -12,7 +12,7 @@
 //	前方宣言
 class DirectionalLight;
 
-class ShadowReciveEffect : public DirectX::IEffect
+class ShadowReceiveEffect : public DirectX::IEffect, public DirectX::IEffectMatrices
 {
 private:
 	struct ConstBuffer
@@ -23,6 +23,7 @@ private:
 		DirectX::SimpleMath::Matrix		matLightView;
 		DirectX::SimpleMath::Matrix		matLightProj;
 		DirectX::SimpleMath::Vector4	lightDir;
+		DirectX::SimpleMath::Vector4	lightColor;
 	};
 
 private:
@@ -51,14 +52,18 @@ private:
 
 	//	ライトの方向
 	DirectX::SimpleMath::Vector3 m_lightDir;
+	//	ライトの色
+	DirectX::SimpleMath::Vector4 m_lightColor;
 
+	//	ベーステクスチャ
+	ID3D11ShaderResourceView* m_baseTexture;
 	//	シャドウマップテクスチャ
 	ID3D11ShaderResourceView* m_shadowTexture;
 
 
 public:
-	ShadowReciveEffect(ID3D11Device* device);
-	~ShadowReciveEffect();
+	ShadowReceiveEffect(ID3D11Device* device);
+	~ShadowReceiveEffect();
 
 	//	IEffect
 	//	シェーダーの適応
@@ -66,17 +71,26 @@ public:
 	//	頂点シェーダーの取得
 	void GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength) override;
 
-public:
-	//	行列の設定
-	void SetWorld(const DirectX::SimpleMath::Matrix& world) { m_world = world; }
-	//	カメラの行列を設定
-	void SetCameraMatrix(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj) { m_view = view; m_proj = proj; }
+	//	IEffectMatricies
+	void __vectorcall SetWorld(const DirectX::FXMMATRIX world) override { m_world = world; }
+	void __vectorcall SetView(const DirectX::FXMMATRIX view) override { m_view = view; }
+	void __vectorcall SetProjection(const DirectX::FXMMATRIX proj) override { m_proj = proj; }
+	void __vectorcall SetMatrices(const DirectX::FXMMATRIX world, const DirectX::FXMMATRIX view, const DirectX::FXMMATRIX proj)
+	{
+		m_world = world;
+		m_view = view;
+		m_proj = proj;
+	}
+
+public:		//	Setter
 	//	ライトの行列を設定
 	void SetLightMatrix(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj) { m_lightView = view; m_lightProj = proj; }
-
 	//	ライトの方向を設定
 	void SetLightDirection(const DirectX::SimpleMath::Vector3& dir) { m_lightDir = dir; }
-
+	//	ベーステクスチャの設定
+	void SetBaseTexture(ID3D11ShaderResourceView* texture) { m_baseTexture = texture; }
 	//	シャドウマップのテクスチャを設定
 	void SetShadowMapTexture(ID3D11ShaderResourceView* texture) { m_shadowTexture = texture; }
+	//	ライトの色を設定
+	void SetLightColor(const DirectX::SimpleMath::Vector4& color) { m_lightColor = color; }
 };

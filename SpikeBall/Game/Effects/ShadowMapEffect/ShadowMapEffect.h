@@ -9,7 +9,7 @@
  **********************************************/
 #pragma once
 
-class ShadowMapEffect : public DirectX::IEffect
+class ShadowMapEffect : public DirectX::IEffect, public DirectX::IEffectMatrices
 {
 private:
 	//	定数バッファ
@@ -49,12 +49,16 @@ public:
 	//	頂点シェーダーの取得
 	void GetVertexShaderBytecode(void const** pShaderByteCode, size_t* pByteCodeLength) override;
 
-	//	ワールド行列の設定
-	void SetWorld(const DirectX::SimpleMath::Matrix& world)		{ m_world = world; }
-	//	ビュー行列の設定
-	void SetView(const DirectX::SimpleMath::Matrix& view)		{ m_view = view; }
-	//	射影行列の設定
-	void SetProjection(const DirectX::SimpleMath::Matrix& proj) { m_proj = proj; }
+	//	IEffectMatricies
+	void __vectorcall SetWorld(const DirectX::FXMMATRIX world) override { m_world = world; }
+	void __vectorcall SetView(const DirectX::FXMMATRIX view) override { m_view = view; }
+	void __vectorcall SetProjection(const DirectX::FXMMATRIX proj) override { m_proj = proj; }
+	void __vectorcall SetMatrices(const DirectX::FXMMATRIX world, const DirectX::FXMMATRIX view, const DirectX::FXMMATRIX proj)
+	{
+		m_world = world;
+		m_view = view;
+		m_proj = proj;
+	}
 
 };
 

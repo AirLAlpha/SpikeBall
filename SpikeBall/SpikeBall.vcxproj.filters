@@ -92,6 +92,21 @@
     <Filter Include="Game\Scenes\TitleScene">
       <UniqueIdentifier>{5a336b45-9994-4caa-aabd-9e72a6c7247a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\ShadowMap">
+      <UniqueIdentifier>{6b7877fd-7ff6-4c32-9310-68aa45094cb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effects">
+      <UniqueIdentifier>{3206b0f2-835a-4f20-9461-0c94be304486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effects\ShadowMapEffect">
+      <UniqueIdentifier>{7b79c1ea-a75a-4d60-96ce-648ecb9a5cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effects\ShadowReceiveEffect">
+      <UniqueIdentifier>{37ff7a37-8f85-4574-b728-69e78591fbd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\DirectionalLight">
+      <UniqueIdentifier>{2300f8e8-ae32-479c-ac58-0dae99ef89b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -189,6 +204,18 @@
     <ClInclude Include="Game\Scenes\TitleScene\TitleScene.h">
       <Filter>Game\Scenes\TitleScene</Filter>
     </ClInclude>
+    <ClInclude Include="Game\ShadowMap\ShadowMap.h">
+      <Filter>Game\ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Effects\ShadowReceiveEffect\ShadowReceiveEffect.h">
+      <Filter>Game\Effects\ShadowReceiveEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Effects\ShadowMapEffect\ShadowMapEffect.h">
+      <Filter>Game\Effects\ShadowMapEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\DirectionalLight\DirectionalLight.h">
+      <Filter>Game\DirectionalLight</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -263,6 +290,18 @@
     <ClCompile Include="Game\Scenes\TitleScene\TitleScene.cpp">
       <Filter>Game\Scenes\TitleScene</Filter>
     </ClCompile>
+    <ClCompile Include="Game\ShadowMap\ShadowMap.cpp">
+      <Filter>Game\ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Effects\ShadowReceiveEffect\ShadowReceiveEffect.cpp">
+      <Filter>Game\Effects\ShadowReceiveEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Effects\ShadowMapEffect\ShadowMapEffect.cpp">
+      <Filter>Game\Effects\ShadowMapEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\DirectionalLight\DirectionalLight.cpp">
+      <Filter>Game\DirectionalLight</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -279,5 +318,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Shaders\Shadow_Header.hlsli">
+      <Filter>Assets</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Resources\Models\floor.fbx">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\Shadow_PS.hlsl">
+      <Filter>Assets</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Shadow_VS.hlsl">
+      <Filter>Assets</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

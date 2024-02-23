@@ -11,6 +11,8 @@
 #include "Floor.h"
 #include "UserResources.h"
 #include "InputManager/InputManager.h"
+#include "DirectionalLight/DirectionalLight.h"
+#include "WICTextureLoader.h"
 
 using namespace DirectX;
 
@@ -29,9 +31,12 @@ Floor::Floor(ID3D11Device* device)
 {
 	//	エフェクトファクトリーの作成
 	std::unique_ptr<EffectFactory> fx = std::make_unique<EffectFactory>(device);
-
 	//	モデルの読み込み
 	m_model = Model::CreateFromCMO(device, L"Resources/Models/floor.cmo", *fx);
+	//	テクスチャの読み込み
+	DX::ThrowIfFailed(
+		CreateWICTextureFromFile(device, L"Resources/Textures/floor_texture.png", nullptr, m_texture.ReleaseAndGetAddressOf())
+	);
 
 	//	コライダーの作成
 	m_collider = std::make_unique<PlaneCollider>(
@@ -39,6 +44,14 @@ Floor::Floor(ID3D11Device* device)
 		COLLIDER_SCALE,
 		m_rot
 	);
+
+	//	エフェクトの作成
+	m_shadowReceiveEffect = std::make_unique<ShadowReceiveEffect>(device);
+	//	インプットレイアウトの作成
+	DX::ThrowIfFailed(
+		CreateInputLayoutFromEffect<VertexPositionNormalTangentColorTexture>(device, m_shadowReceiveEffect.get(), m_inputLayout.ReleaseAndGetAddressOf())
+	);
+	m_shadowReceiveEffect->SetBaseTexture(m_texture.Get());
 }
 
 //	デストラクタ
@@ -73,10 +86,42 @@ void Floor::Render(
 		SimpleMath::Matrix::CreateFromQuaternion(m_rot);
 
 	//	モデルの描画
-	m_model->Draw(context, states, world, view, proj);
+	m_model->Draw(context, states, world, view, proj, false, [&]
+		{
+			//	インプットレイアウトの設定
+			context->IASetInputLayout(m_inputLayout.Get());
+
+			//	行列の設定
+			m_shadowReceiveEffect->SetLightDirection(m_light->GetDirection());
+			m_shadowReceiveEffect->SetLightMatrix(m_light->GetLightView(), m_light->GetLightProjection());
+			m_shadowReceiveEffect->SetMatrices(world, view, proj);
+
+			m_shadowReceiveEffect->Apply(context);
+		});
 
 }
 
+//--------------------------------------------------------------------------------
+// シャドウマップへの描画
+//--------------------------------------------------------------------------------
+void Floor::ShadowMapRender(const ShadowMap& shadowMap, ID3D11DeviceContext* context, const DirectX::CommonStates& states)
+{
+	//	ワールド変換行列を計算
+	SimpleMath::Matrix world =
+		SimpleMath::Matrix::CreateScale(MODEL_SCALE) *
+		SimpleMath::Matrix::CreateTranslation(MODEL_OFFSET) *
+		SimpleMath::Matrix::CreateFromQuaternion(m_rot);
+
+	m_model->Draw(context, states, SimpleMath::Matrix::Identity, SimpleMath::Matrix::Identity, SimpleMath::Matrix::Identity, false, [&]
+		{
+			ID3D11SamplerState* sampler = { states.PointWrap() };
+			context->PSSetSamplers(0, 1, &sampler);
+
+			shadowMap.RenderShadowMap(context, world);
+		});
+
+	m_shadowReceiveEffect->SetShadowMapTexture(shadowMap.GetShadowMapTexture());
+}
 
 
 //--------------------------------------------------------------------------------

@@ -11,15 +11,15 @@
 #include "ShadowMap.h"
 #include "DirectXHelpers.h"
 
-#include "Light/DirectionalLight/DirectionalLight.h"
+#include "DirectionalLight/DirectionalLight.h"
 
 using namespace DirectX;
 
 //	コンストラクタ
-ShadowMap::ShadowMap(DX::DeviceResources* deviceResources, UINT resolution)
+ShadowMap::ShadowMap(const DX::DeviceResources& deviceResources, UINT resolution)
 {
 	//	デバイスの取得
-	auto device = deviceResources->GetD3DDevice();
+	auto device = deviceResources.GetD3DDevice();
 
 	//	深度バッファに使用するフォーマット
 	const DXGI_FORMAT DEPTH_FORMAT = DXGI_FORMAT_D16_UNORM;
@@ -58,51 +58,10 @@ ShadowMap::ShadowMap(DX::DeviceResources* deviceResources, UINT resolution)
 
 	//	Z値テクスチャに使用するフォーマット
 	const DXGI_FORMAT TEX_FORMAT = DXGI_FORMAT_R16G16B16A16_FLOAT;
-
-	//	Z値テクスチャ
-	{
-		D3D11_TEXTURE2D_DESC desc = {};
-		desc.Width = resolution;
-		desc.Height = resolution;
-		desc.MipLevels = 1;
-		desc.ArraySize = 1;
-		desc.Format = TEX_FORMAT;
-		desc.SampleDesc.Count = 1;
-		desc.SampleDesc.Quality = 0;
-		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		desc.CPUAccessFlags = 0;
-		desc.MiscFlags = 0;
-
-		DX::ThrowIfFailed(
-			device->CreateTexture2D(&desc, nullptr, m_zTexture.ReleaseAndGetAddressOf())
-		);
-	}
-
-	//	Z値レンダーターゲットビュー
-	{
-		D3D11_RENDER_TARGET_VIEW_DESC desc = {};
-		desc.Format = TEX_FORMAT;
-		desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-		desc.Texture2D.MipSlice = 0;
-
-		DX::ThrowIfFailed(
-			device->CreateRenderTargetView(m_zTexture.Get(), &desc, m_zRTV.ReleaseAndGetAddressOf())
-		);
-	}
-
-	//	Z値シェーダーリソースビュー
-	{
-		D3D11_SHADER_RESOURCE_VIEW_DESC desc = {};
-		desc.Format = TEX_FORMAT;
-		desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		desc.Texture2D.MostDetailedMip = 0;
-		desc.Texture2D.MipLevels = static_cast<UINT>(-1);
-
-		DX::ThrowIfFailed(
-			device->CreateShaderResourceView(m_zTexture.Get(), &desc, m_zSRV.ReleaseAndGetAddressOf())
-		);
-	}
+	//	Z値用テクスチャの作成
+	m_renderTexture = std::make_unique<DX::RenderTexture>(TEX_FORMAT);
+	m_renderTexture->SetDevice(device);
+	m_renderTexture->SizeResources(resolution, resolution);
 
 	//	ビューポートの作成
 	{
@@ -115,16 +74,16 @@ ShadowMap::ShadowMap(DX::DeviceResources* deviceResources, UINT resolution)
 	}
 
 	//	スクリーンのビューを保持しておく
-	m_screenRTV = deviceResources->GetRenderTargetView();
-	m_screenDSV = deviceResources->GetDepthStencilView();
-	m_screenViewPort = deviceResources->GetScreenViewport();
+	m_screenRTV = deviceResources.GetRenderTargetView();
+	m_screenDSV = deviceResources.GetDepthStencilView();
+	m_screenViewPort = deviceResources.GetScreenViewport();
 
 
 	//	シャドウマップ用エフェクトの作成
 	m_shadowMapEffect = std::make_unique<ShadowMapEffect>(device);
 	//	インプットレイアウトの作成
 	DX::ThrowIfFailed(
-		CreateInputLayoutFromEffect<VertexPositionNormalTangentColorTexture>(device, m_shadowMapEffect.get(), m_inputLayout.ReleaseAndGetAddressOf())
+		CreateInputLayoutFromEffect<VertexPositionNormalTexture>(device, m_shadowMapEffect.get(), m_inputLayout.ReleaseAndGetAddressOf())
 	);
 }
 
@@ -137,23 +96,24 @@ ShadowMap::~ShadowMap()
 //--------------------------------------------------------------------------------
 // シャドウマップに描画開始
 //--------------------------------------------------------------------------------
-void ShadowMap::Begin(ID3D11DeviceContext* context, CommonStates* commonStates)
+void ShadowMap::Begin(ID3D11DeviceContext* context, const CommonStates& commonStates) const
 {
 	//	設定されているステートをクリア
 	context->ClearState();
 
 	//	レンダーターゲットビューのクリア
-	context->ClearRenderTargetView(m_zRTV.Get(), DirectX::Colors::White);
+	context->ClearRenderTargetView(m_renderTexture->GetRenderTargetView(), DirectX::Colors::White);
 	//	深度ステンシルビューのクリア
 	context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 	//	描画ステートを設定
-	context->RSSetState(commonStates->CullNone());
+	context->RSSetState(commonStates.CullNone());
 	//	深度バッファを使用する用に設定
-	context->OMSetDepthStencilState(commonStates->DepthDefault(), 0xFFFFFFFF);
+	context->OMSetDepthStencilState(commonStates.DepthDefault(), 0xFFFFFFFF);
 
 	//	描画対象を変更
-	context->OMSetRenderTargets(1, m_zRTV.GetAddressOf(), m_depthStencilView.Get());
+	ID3D11RenderTargetView* rtv = { m_renderTexture->GetRenderTargetView() };
+	context->OMSetRenderTargets(1, &rtv, m_depthStencilView.Get());
 
 	//	ビューポートを変更
 	context->RSSetViewports(1, &m_viewPort);
@@ -163,7 +123,7 @@ void ShadowMap::Begin(ID3D11DeviceContext* context, CommonStates* commonStates)
 //--------------------------------------------------------------------------------
 // シャドウマップに描画
 //--------------------------------------------------------------------------------
-void ShadowMap::RenderShadowMap(ID3D11DeviceContext* context, const SimpleMath::Matrix& world)
+void ShadowMap::RenderShadowMap(ID3D11DeviceContext* context, const SimpleMath::Matrix& world) const
 {
 	//	インプットレイアウトの設定
 	context->IASetInputLayout(m_inputLayout.Get());
@@ -180,7 +140,7 @@ void ShadowMap::RenderShadowMap(ID3D11DeviceContext* context, const SimpleMath::
 //--------------------------------------------------------------------------------
 // シャドウマップに描画終了
 //--------------------------------------------------------------------------------
-void ShadowMap::End(ID3D11DeviceContext* context)
+void ShadowMap::End(ID3D11DeviceContext* context) const
 {
 	//	描画対象を戻す
 	context->OMSetRenderTargets(1, &m_screenRTV, m_screenDSV);

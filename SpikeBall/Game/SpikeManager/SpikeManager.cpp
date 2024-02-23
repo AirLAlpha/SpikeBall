@@ -79,6 +79,20 @@ void SpikeManager::Render(const DirectX::SimpleMath::Matrix& view, const DirectX
 }
 
 //--------------------------------------------------------------------------------
+// シャドウマップへの描画
+//--------------------------------------------------------------------------------
+void SpikeManager::ShadowMapRender(const ShadowMap& shadowMap, ID3D11DeviceContext* context)
+{
+	for (const auto& spike : m_spikeList)
+	{
+		if (!spike->GetIsEnable())
+			continue;
+
+		spike->ShadowMapRender(shadowMap, context);
+	}
+}
+
+//--------------------------------------------------------------------------------
 // 床との衝突判定
 //--------------------------------------------------------------------------------
 void SpikeManager::CheckHitFloor(const Floor& floor)

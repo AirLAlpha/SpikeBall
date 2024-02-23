@@ -18,6 +18,8 @@
 #include "ResultCanvas/ResultCanvas.h"
 #include "Timer/Timer.h"
 #include "Background/Background.h"
+#include "DirectionalLight/DirectionalLight.h"
+#include "ShadowMap/ShadowMap.h"
 
 class PlayScene : public Scene
 {
@@ -48,6 +50,11 @@ private:
 
 	//	背景
 	std::unique_ptr<Background>		m_background;
+
+	//	ライト
+	std::unique_ptr<DirectionalLight>	m_light;
+	//	シャドウマップ
+	std::unique_ptr<ShadowMap>			m_shadowMap;
 
 private:
 	//	ゲームオーバー
